@@ -6,6 +6,7 @@ import time
 from urllib.parse import parse_qs, unquote
 import requests
 from datetime import datetime
+import pyfiglet  # Import pyfiglet for ASCII art
 
 from birdx import Birdx
 
@@ -15,7 +16,7 @@ def print_(word):
 
 def clear_terminal():
     os.system('cls' if os.name == 'nt' else 'clear')
-    
+
 def load_query():
     try:
         with open('birdx_query.txt', 'r') as f:
@@ -27,7 +28,6 @@ def load_query():
     except Exception as e:
         print("Failed get Query :", str(e))
         return [  ]
-
 
 def parse_query(query: str):
     parsed_query = parse_qs(query)
@@ -41,18 +41,31 @@ def remaining_time(times):
     minutes, seconds = divmod(remainder, 60)
     return f"Remaining Time Upgrade : {int(hours)} Hours {int(minutes)} Minutes {int(seconds)} Seconds"
 
+def countdown(total):
+    while total > 0:
+        hours, remainder = divmod(total, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        print(f"\r[ Restarting In {int(hours)} Hours {int(minutes)} Minutes {int(seconds)} Seconds ]", end="")
+        time.sleep(1)
+        total -= 1
+    print("\n")
+
 def main():
-    selector_task = input("auto clear task y/n  : ").strip().lower()
-    selector_games = input("auto playing games y/n  : ").strip().lower()
+    selector_task = input("Auto Clear Task? y/n  : ").strip().lower()
+    selector_games = input("Auto Playing Games? y/n  : ").strip().lower()
     clear_terminal()
+    
+    ascii_art = pyfiglet.figlet_format("VIKITOSHI")
+    
     while True:
         birdx = Birdx()
         queries = load_query()
         sum = len(queries)
-        delay = int(1 * random.randint(3600, 3650))
+        delay = 1800  # 30 menit dalam detik
         start_time = time.time()
         for index, query in enumerate(queries, start=1):
-            print_(f"========== VIKITOSHI ===========")
+            clear_terminal()
+            print(ascii_art)  # Print ASCII art of VIKITOSHI
             print_(f"========== Account {index}/{sum} ===========")
             print_('Getting Detail User....')
             data_user_info = birdx.get_user_info(query)
@@ -99,15 +112,10 @@ def main():
             else:
                 print_('User Not Found')
 
-
-
         end_time = time.time()
-        total = delay - (end_time-start_time)
-        hours, remainder = divmod(total, 3600)
-        minutes, seconds = divmod(remainder, 60)
+        total = delay - (end_time - start_time)
         if total > 0:
-            print_(f"[ Restarting In {int(hours)} Hours {int(minutes)} Minutes {int(seconds)} Seconds ]")
-            time.sleep(total)
+            countdown(int(total))
 
 if __name__ == "__main__":
      main()
