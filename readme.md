@@ -1,7 +1,7 @@
 # BIRDX BOT
 
-## LINK BOT: [Register Here](https://t.me/birdx2_bot/birdx?startapp=6057140648)
-## JOIN GROUP : [Join Here](https://t.me/sansxgroup)
+## LINK BOT: [Register Here](https://t.me/birdx2_bot/birdx?startapp=1718104228)
+## JOIN GROUP : [Join Here](https://t.me/AirdropInsiderID)
 
 ## Features
 - Auto Upgrade
